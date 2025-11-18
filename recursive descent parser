@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <ctype.h>
+
+char input[100];
+int i = 0;
+
+void E();
+void Eprime();
+void T();
+void Tprime();
+void F();
+
+void match(char t) {
+    if(input[i] == t) i++;
+    else {
+        printf("Syntax Error at %c\n", input[i]);
+        exit(0);
+    }
+}
+
+void F() {
+    if(isalpha(input[i])) { // id
+        i++;
+    } else if(input[i] == '(') {
+        match('(');
+        E();
+        match(')');
+    } else {
+        printf("Syntax Error in F\n");
+        exit(0);
+    }
+}
+
+void Tprime() {
+    if(input[i] == '*') {
+        match('*');
+        F();
+        Tprime();
+    }
+}
+
+void T() {
+    F();
+    Tprime();
+}
+
+void Eprime() {
+    if(input[i] == '+') {
+        match('+');
+        T();
+        Eprime();
+    }
+}
+
+void E() {
+    T();
+    Eprime();
+}
+
+int main() {
+    printf("Enter expression: ");
+    scanf("%s", input);
+    E();
+    if(input[i] == '\0')
+        printf("Valid Expression\n");
+    else
+        printf("Invalid Expression\n");
+    return 0;
+}
