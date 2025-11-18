@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+
+void E();
+void R();
+void T();
+void P();
+void F();
+void error();
+
+char str[50];
+int ip = 0;
+
+void main()
+{
+    clrscr();
+    printf("Enter string using a, +, *, (, ) and ending with $:\n");
+    scanf("%s", str);
+
+    E();   // start parsing
+
+    if (str[ip] == '$')
+        printf("\nParsing is successful");
+    else
+        printf("\nParsing failed: Extra characters present");
+
+    getch();
+}
+
+void E()
+{
+    T();
+    R();
+}
+
+void R()
+{
+    if (str[ip] == '+')
+    {
+        ip++;
+        T();
+        R();
+    }
+}
+
+void T()
+{
+    F();
+    P();
+}
+
+void P()
+{
+    if (str[ip] == '*')
+    {
+        ip++;
+        F();
+        P();
+    }
+}
+
+void F()
+{
+    if (str[ip] == '(')
+    {
+        ip++;
+        E();
+
+        if (str[ip] == ')')
+            ip++;
+        else
+        {
+            printf("\nError: Missing ')'");
+            exit(0);
+        }
+    }
+    else if (str[ip] == 'a')
+    {
+        ip++;
+    }
+    else
+    {
+        error();
+    }
+}
+
+void error()
+{
+    printf("\nError: Invalid expression");
+    exit(0);
+}
