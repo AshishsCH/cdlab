@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char str[20];
+    FILE *fp;
+    char c;
+
+    // List of few keywords
+    char *keywords[] = {"int","float","if","else","for","while","return"};
+
+    fp = fopen("input.c","r");
+    if(fp == NULL) {
+        printf("Cannot open file\n");
+        return 0;
+    }
+
+    while(fscanf(fp, "%s", str) != EOF) {
+        int isKey = 0;
+
+        // Check keyword
+        for(int i=0;i<7;i++) {
+            if(strcmp(str, keywords[i])==0) {
+                printf("%s : Keyword\n", str);
+                isKey = 1;
+                break;
+            }
+        }
+
+        if(isKey) continue;
+
+        // Check number
+        int num = 1;
+        for(int i=0; str[i]; i++) {
+            if(!isdigit(str[i])) { num=0; break; }
+        }
+        if(num) {
+            printf("%s : Number\n", str);
+            continue;
+        }
+
+        // Otherwise identifier
+        printf("%s : Identifier\n", str);
+    }
+
+    fclose(fp);
+    return 0;
+}
