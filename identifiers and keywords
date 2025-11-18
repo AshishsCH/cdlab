@@ -1,0 +1,26 @@
+%{
+    #include <stdio.h>
+%}
+
+%%
+
+/* Keywords (lowercase) */
+if|else|while|do|switch|case|break|for|default    { printf("Keyword\n"); }
+
+/* Keywords (uppercase) */
+IF|ELSE|WHILE|DO|SWITCH|CASE|BREAK|FOR|DEFAULT    { printf("Keyword\n"); }
+
+/* Identifier rules */
+[A-Za-z][A-Za-z0-9_]*     { printf("Identifier\n"); }
+
+/* Ignore spaces, tabs, newlines */
+[ \t\n]+    { /* ignore */ }
+
+.           { /* ignore any other single character */ }
+
+%%
+
+int main() {
+    yylex();
+    return 0;
+}
