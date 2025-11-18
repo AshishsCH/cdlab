@@ -1,0 +1,23 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+-[0-9]+\.[0-9]+      { printf("%s : negative real number\n", yytext); }
+\+[0-9]+\.[0-9]+     { printf("%s : positive real number\n", yytext); }
+[0-9]+\.[0-9]+       { printf("%s : positive real number\n", yytext); }
+
+-[0-9]+              { printf("%s : negative integer\n", yytext); }
+\+[0-9]+             { printf("%s : positive integer\n", yytext); }
+[0-9]+               { printf("%s : positive integer\n", yytext); }
+
+[ \t\n]+             ;   /* Ignore whitespace */
+
+.                    { printf("%s : invalid token\n", yytext); }
+%%
+
+int main()
+{
+    yylex();
+    return 0;
+}
