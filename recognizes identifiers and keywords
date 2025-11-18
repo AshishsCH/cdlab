@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <conio.h>
+
+void main()
+{
+    int i, flag = 0;
+    char str[50];
+    
+    clrscr();
+    printf("Enter string:\n");
+    scanf("%s", str);
+
+    /* Check for control flow keywords */
+    if (strcmp(str, "if") == 0 || strcmp(str, "else") == 0 ||
+        strcmp(str, "do") == 0 || strcmp(str, "for") == 0 ||
+        strcmp(str, "break") == 0 || strcmp(str, "while") == 0 ||
+        strcmp(str, "switch") == 0 || strcmp(str, "case") == 0 ||
+        strcmp(str, "default") == 0)
+    {
+        printf("Keyword of control flow statements");
+    }
+    else 
+    {
+        /* Check for identifier */
+        if (isalpha(str[0]) || str[0] == '_')      // First character rule
+        {
+            flag = 0; // assume valid identifier
+            for (i = 1; i < strlen(str); i++)
+            {
+                if (!(isalnum(str[i]) || str[i] == '_'))
+                {
+                    flag = 1; // invalid
+                    break;
+                }
+            }
+
+            if (flag == 0)
+                printf("Identifier");
+            else
+                printf("Not a keyword or identifier");
+        }
+        else
+        {
+            printf("Not a keyword or identifier");
+        }
+    }
+
+    getch();
+}
