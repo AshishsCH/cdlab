@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+void display() {
+    int x = 10;   // Stack allocated variable
+    int y = 20;   // Stack allocated variable
+
+    printf("Inside display(): x = %d, y = %d\n", x, y);
+    // x and y exist only inside this function (stack)
+}
+
+int main() {
+    printf("Calling display()...\n");
+    display();
+    printf("display() finished. Stack memory freed automatically.\n");
+
+    return 0;
+}
