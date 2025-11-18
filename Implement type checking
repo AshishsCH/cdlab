@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    char s[20];
+    int i = 0, dot = 0;
+
+    printf("Enter a value: ");
+    scanf("%s", s);
+
+    // First character must be digit or minus sign
+    if ((s[0] == '-' && !isdigit(s[1])) || (s[0] != '-' && !isdigit(s[0]))) {
+        printf("Type char\n");
+        return 0;
+    }
+
+    i = 1;
+    while (s[i] != '\0') {
+        if (s[i] == '.') {
+            dot++;
+        }
+        else if (!isdigit(s[i])) {
+            printf("INVALID\n");
+            return 0;
+        }
+        i++;
+    }
+
+    if (dot == 0)
+        printf("Type int\n");
+    else if (dot == 1)
+        printf("Type float\n");
+    else
+        printf("INVALID\n");
+
+    return 0;
+}
