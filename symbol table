@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 50
+
+// Symbol table structure
+struct Symbol {
+    char name[20];
+} table[MAX];
+
+int count = 0;
+
+// Insert into symbol table
+void insert(char *sym) {
+    // check if already exists
+    for(int i = 0; i < count; i++) {
+        if(strcmp(table[i].name, sym) == 0) {
+            printf("%s already exists\n", sym);
+            return;
+        }
+    }
+    strcpy(table[count].name, sym);
+    count++;
+    printf("%s inserted\n", sym);
+}
+
+// Search symbol table
+void search(char *sym) {
+    for(int i = 0; i < count; i++) {
+        if(strcmp(table[i].name, sym) == 0) {
+            printf("%s found\n", sym);
+            return;
+        }
+    }
+    printf("%s not found\n", sym);
+}
+
+// Display table
+void display() {
+    printf("\nSymbol Table:\n");
+    for(int i = 0; i < count; i++) {
+        printf("%s\n", table[i].name);
+    }
+}
+
+int main() {
+    insert("a");
+    insert("b");
+    insert("c");
+    search("b");
+    search("x");
+    display();
+    return 0;
+}
