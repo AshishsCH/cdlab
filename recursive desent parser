@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+char input[100];
+int i=0;
+
+void S();
+void L();
+void Lprime();
+
+void match(char t) {
+    if(input[i] == t) i++;
+    else {
+        printf("Syntax Error at %c\n", input[i]);
+        exit(0);
+    }
+}
+
+void S() {
+    if(input[i] == 'a') {
+        match('a');
+    } else if(input[i] == '(') {
+        match('(');
+        L();
+        match(')');
+    } else {
+        printf("Syntax Error in S\n");
+        exit(0);
+    }
+}
+
+void Lprime() {
+    if(input[i] == ',') {
+        match(',');
+        S();
+        Lprime();
+    }
+}
+
+void L() {
+    S();
+    Lprime();
+}
+
+int main() {
+    printf("Enter string: ");
+    scanf("%s", input);
+    S();
+    if(input[i]=='\0')
+        printf("Valid String\n");
+    else
+        printf("Invalid String\n");
+    return 0;
+}
