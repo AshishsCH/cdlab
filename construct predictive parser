@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+char stack[50];
+int top = -1;
+
+void push(char c)
+{
+    stack[++top] = c;
+}
+
+char pop()
+{
+    return stack[top--];
+}
+
+void error()
+{
+    printf("\nParsing is NOT successful");
+    exit(0);
+}
+
+void main()
+{
+    char str[50], ch;
+    int ip = 0;
+
+    clrscr();
+    printf("Enter string ending with $: ");
+    scanf("%s", str);
+
+    push('$');
+    push('E');       // Start symbol
+
+    while ((ch = pop()) != '$')       // Continue until stack returns $
+    {
+        switch (ch)
+        {
+        case 'E':
+            if (str[ip] == 'a' || str[ip] == '(')
+            {
+                push('R');
+                push('T');
+            }
+            else
+                error();
+            break;
+
+        case 'R':
+            if (str[ip] == '+')
+            {
+                push('R');
+                push('T');
+                push('+');
+            }
+            else if (str[ip] == ')' || str[ip] == '$')
+            {
+                // epsilon production → do nothing
+            }
+            else
+                error();
+            break;
+
+        case 'T':
+            if (str[ip] == 'a' || str[ip] == '(')
+            {
+                push('P');
+                push('F');
+            }
+            else
+                error();
+            break;
+
+        case 'P':
+            if (str[ip] == '*')
+            {
+                push('P');
+                push('F');
+                push('*');
+            }
+            else if (str[ip] == '+' || str[ip] == ')' || str[ip] == '$')
+            {
+                // epsilon → do nothing
+            }
+            else
+                error();
+            break;
+
+        case 'F':
+            if (str[ip] == 'a')
+                push('a');
+            else if (str[ip] == '(')
+            {
+                push(')');
+                push('E');
+                push('(');
+            }
+            else
+                error();
+            break;
+
+        // terminal matching
+        case '+':
+            if (str[ip] == '+') ip++;
+            else error();
+            break;
+
+        case '*':
+            if (str[ip] == '*') ip++;
+            else error();
+            break;
+
+        case '(':
+            if (str[ip] == '(') ip++;
+            else error();
+            break;
+
+        case ')':
+            if (str[ip] == ')') ip++;
+            else error();
+            break;
+
+        case 'a':
+            if (str[ip] == 'a') ip++;
+            else error();
+            break;
+
+        default:
+            error();
+        }
+    }
+
+    if (str[ip] == '$')
+        printf("\nParsing is successful");
+    else
+        printf("\nParsing failed: Extra characters remain");
+
+    getch();
+}
